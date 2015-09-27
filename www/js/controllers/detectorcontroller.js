@@ -77,7 +77,7 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             document.getElementById("moInterval").innerHTML = info;
         }
         if (window.DeviceMotionEvent) {
-            window.addEventListener('devicemotion', deviceMotionHandler,true);
+            window.addEventListener('devicemotion', deviceMotionHandler, true);
         };
         //Check for support for DeviceOrientation event
         if (window.DeviceOrientationEvent) {

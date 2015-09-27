@@ -9,23 +9,23 @@ $PortalApp.controller('testcontroller', function ($scope, $http) {
 
 
     
-    function onDeviceReady() {
-        var sensorAcc = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
+    $scope.onDeviceReady = function() {
+        var sensorAcc = navigator.accelerometer.watchAcceleration($scope.onSuccess, $scope.onError);
         alert(sensorAcc);
     }
 
-    function onSuccess(acceleration) {
+    $scope.onSuccess = function(acceleration) {
         alert(acceleration);
         showCalibratedAngle(acceleration);
     }
 
     // onError: Failed to get the acceleration
-    function onError(err) {
+    $scope.onError= function(err) {
         alert(err);
     }
 
     $scope.init = function () {
-        document.addEventListener("deviceready", onDeviceReady, false);
+        document.addEventListener("deviceready", $scope.onDeviceReady, false);
         window.addEventListener('deviceorientation', function (event) {
             $('#alphaValue').html(event.x);
             $('#leftValue').html(event.y);
