@@ -77,14 +77,14 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
             document.getElementById("moInterval").innerHTML = info;
         }
         if (window.DeviceMotionEvent) {
-            window.addEventListener('devicemotion', deviceMotionHandler);
+            window.addEventListener('devicemotion', deviceMotionHandler,true);
         };
         //Check for support for DeviceOrientation event
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', function (event) {
                 $('#orienalpha').html(event.alpha);
                 $('#orienbeta').html(event.beta);
-                $('#oriengamma').html(event.gama);
+                $('#oriengamma').html(event.gamma);
                 var temp = Math.ceil(event.alpha);
                 angles.alpha = temp - (temp % 10);
                 showCalibratedAngle();
