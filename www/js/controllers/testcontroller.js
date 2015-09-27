@@ -26,7 +26,8 @@ $PortalApp.controller('testcontroller', function ($scope, $http) {
 
     $scope.init = function () {
         document.addEventListener("deviceready", function (event) {
-            alert("device Ready");
+            var sensorAcc = navigator.accelerometer.watchAcceleration($scope.onSuccess, $scope.onError);
+            alert(sensorAcc);
         }, false);
 
         window.addEventListener('deviceorientation', function (event) {
