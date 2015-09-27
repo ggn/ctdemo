@@ -9,8 +9,8 @@
   </author>
   <content src="index.html" />
   <pclugin name="cordova-plugin-whitelist" version="1" />
-  <gap:plugin name="org.apache.cordova.device-motion"/>
-  <gap:plugin name="org.apache.cordova.device-orientation" />
+  <cdv:plugin name="org.apache.cordova.device-motion"/>
+  <cdv:plugin name="org.apache.cordova.device-orientation" />
   <access origin="*" />
   <allow-intent href="http://*/*" />
   <allow-intent href="https://*/*" />
