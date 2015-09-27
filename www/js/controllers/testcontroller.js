@@ -9,11 +9,6 @@ $PortalApp.controller('testcontroller', function ($scope, $http) {
 
 
     
-    $scope.onDeviceReady = function() {
-        var sensorAcc = navigator.accelerometer.watchAcceleration($scope.onSuccess, $scope.onError);
-        alert(sensorAcc);
-    }
-
     $scope.onSuccess = function(acceleration) {
         alert(acceleration);
         showCalibratedAngle(acceleration);
@@ -25,7 +20,11 @@ $PortalApp.controller('testcontroller', function ($scope, $http) {
     }
 
     $scope.init = function () {
-        document.addEventListener("deviceready", $scope.onDeviceReady, false);
+        document.addEventListener("deviceready", function (event) {
+            var sensorAcc = navigator.accelerometer.watchAcceleration($scope.onSuccess, $scope.onError);
+            alert(sensorAcc);
+        }, true);
+
         window.addEventListener('deviceorientation', function (event) {
             $('#alphaValue').html(event.x);
             $('#leftValue').html(event.y);

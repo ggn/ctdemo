@@ -53,23 +53,23 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
 
             // Grab the acceleration from the results
             var acceleration = eventData.acceleration;
-            info = xyz.replace("X", acceleration.x);
-            info = info.replace("Y", acceleration.y);
-            info = info.replace("Z", acceleration.z);
+            info = xyz.replace("X", Math.ceil(acceleration.x));
+            info = info.replace("Y", Math.ceil(acceleration.y));
+            info = info.replace("Z", Math.ceil(acceleration.z));
             document.getElementById("moAccel").innerHTML = info;
 
             // Grab the acceleration including gravity from the results
             acceleration = eventData.accelerationIncludingGravity;
-            info = xyz.replace("X", acceleration.x);
-            info = info.replace("Y", acceleration.y);
-            info = info.replace("Z", acceleration.z);
+            info = xyz.replace("X", Math.ceil(acceleration.x));
+            info = info.replace("Y", Math.ceil(acceleration.y));
+            info = info.replace("Z", Math.ceil(acceleration.z));
             document.getElementById("moAccelGrav").innerHTML = info;
 
             // Grab the rotation rate from the results
             var rotation = eventData.rotationRate;
-            info = xyz.replace("X", rotation.alpha);
-            info = info.replace("Y", rotation.beta);
-            info = info.replace("Z", rotation.gamma);
+            info = xyz.replace("X", Math.ceil(rotation.alpha));
+            info = info.replace("Y", Math.ceil(rotation.beta));
+            info = info.replace("Z", Math.ceil(rotation.gamma));
             document.getElementById("moRotation").innerHTML = info;
 
             // // Grab the refresh interval from the results
@@ -82,9 +82,9 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
         //Check for support for DeviceOrientation event
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', function (event) {
-                $('#orienalpha').html(event.alpha);
-                $('#orienbeta').html(event.beta);
-                $('#oriengamma').html(event.gamma);
+                $('#orienalpha').html(Math.ceil(event.alpha));
+                $('#orienbeta').html(Math.ceil(event.beta));
+                $('#oriengamma').html(Math.ceil(event.gamma));
                 var temp = Math.ceil(event.alpha);
                 angles.alpha = temp - (temp % 10);
                 showCalibratedAngle();
