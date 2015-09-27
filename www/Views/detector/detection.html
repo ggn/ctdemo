@@ -1,0 +1,107 @@
+﻿<div ng-init="init()">
+    <div class="new-line-row"></div>
+    <div class="row">
+        <div class="small-12 columns text-center">
+            <b> Please set angles to test your eyes</b>
+        </div>
+    </div>
+    <div class="new-line-row"></div>
+    <div class="row">
+        <div class="small-8 columns">
+            Angle for Left Eye
+        </div>
+        <div class="small-4 columns">
+            <input type="text" class="no-margin padding5" readonly="readonly" id="sliderOutputLeft" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 columns">
+            <div class="range-slider round" id="sliderLeft" data-slider data-options="step: 10; start: 30; end: 90;">
+                <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                <span class="range-slider-active-segment"></span>
+                <input type="hidden">
+            </div>
+        </div>
+    </div>
+    <div class="new-line-row"></div>
+    <div class="row">
+        <div class="small-8 columns">
+            Angle for Right Eye
+        </div>
+        <div class="small-4 columns">
+            <input type="text" class="no-margin padding5" readonly="readonly" id="sliderOutputRight" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 columns">
+            <div class="range-slider round" id="sliderRight" data-slider data-options="step: 10; start: 30; end: 90;">
+                <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                <span class="range-slider-active-segment"></span>
+                <input type="hidden">
+            </div>
+        </div>
+    </div>
+    <div class="new-line-row"></div>
+    <div class="row">
+        <div class="small-12 column text-center">
+            ( <a ng-click="vibrate()">point to any object and click calibrate. Keep looking at same object</a> )
+        </div>
+        <div class="small-12 column">
+            <button id="btnCalibrator" ng-click="calibrate();" class="button round expand alert"> Point and calibrate </button>
+        </div>
+    </div>
+    <div class="new-line-row"></div>
+    <div class="row">
+        <div class="small-12 columns">
+            <div id="dataContainerOrientation">
+                Calibration
+                <h1 id="calibration"> No device orientation data </h1>
+                Left Eye Angle calculated
+                <h1 id="leftValue"> 0 </h1>
+                Right Eye Angle Calculated
+                <h1 id="rightValue"> 0 </h1>
+                Compass Angle
+                <h1 id="alphaValue"> 0 </h1>
+                <div class="text-center">
+                    <div style="height:20px;width:20px;background-color:red;border-radius:10px" id="rotationachived"></div>
+                </div>
+                <h1>NEW CODE</h1>
+                <div>orien alpha:<h1 id="orienalpha"> 0 </h1></div>
+                <div>orien beta:<h1 id="orienbeta"> 0 </h1></div>
+                <div>orien gamma:<h1 id="oriengamma"> 0 </h1></div>
+
+                <div>orien alpha:<h1 id="orienalpha"> 0 </h1></div>
+                <div>orien beta:<h1 id="orienbeta"> 0 </h1></div>
+                <div>orien gamma:<h1 id="oriengamma"> 0 </h1></div>
+
+                <div class="main">
+                    <h2>Device Motion</h2>
+                    <table>
+                        <tr>
+                            <td>Event Supported</td>
+                            <td id="dmEvent"></td>
+                        </tr>
+                        <tr>
+                            <td>acceleration</td>
+                            <td id="moAccel"></td>
+                        </tr>
+                        <tr>
+                            <td>accelerationIncludingGravity</td>
+                            <td id="moAccelGrav"></td>
+                        </tr>
+                        <tr>
+                            <td>rotationRate</td>
+                            <td id="moRotation"></td>
+                        </tr>
+                        <tr>
+                            <td>interval</td>
+                            <td id="moInterval"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="errorMessages" class="small-12 columns">
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿.new-line-row {
+    padding:10px;
+}
+.btnfaqquestion
+{
+    width:100%;
+    text-align:left;
+    }
+
+ #circle
+    {
+        border-radius: 50%;
+        position: absolute;
+        transition: 1s;
+        transition-property: width,height,left,top;
+        max-width: 300px;
+        max-height: 300px;
+        z-index:100;
+    }
+
+#ctDemoScreen {
+background-color:black !important;
+color:white !important;
+height:100% !important;
+}

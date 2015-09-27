@@ -1,0 +1,90 @@
+<doctype html>
+    <html>
+
+    <head>
+        <title>
+            GGN's M-Eye Care
+        </title>
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/foundation.css" />
+        <link rel="stylesheet" type="text/css" href="css/meye.css" />
+    </head>
+
+    <body ng-app="MEYE">
+        <div ng-controller="globalController">
+            <div class="off-canvas-wrap" style="overflow:auto!important" data-offcanvas>
+                <div class="inner-wrap">
+                    <nav class="tab-bar">
+                        <section class="left-small">
+                            <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+                        </section>
+
+                        <section class="middle tab-bar-section">
+                            <h1 class="title">GGN's M-Eye Care</h1>
+                        </section>
+                    </nav>
+
+                    <aside class="left-off-canvas-menu">
+                        <ul class="off-canvas-list">
+                            <li>
+                                <label>MENU</label>
+                            </li>
+                            <li class="has-submenu">
+                                <a href="#">Glaucoma Defined</a>
+                                <ul class="left-submenu">
+                                    <li class="back"><a href="#">Back</a></li>
+                                    <li><a href="#whatisglaucoma">What is Glaucoma?</a></li>
+                                    <li><a href="#test">test</a></li>
+                                    <li><a href="#detect">M-Glaucoma Test</a></li>
+                                    <li><a href="#whatisglaucoma">Causes</a></li>
+                                    <li><a href="#whatisglaucoma">Symptoms</a></li>
+                                    <li><a href="#whatisglaucoma">Detection</a></li>
+                                    <li><a href="#whatisglaucoma">Treatments</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#ctdemo">CT Demo</a></li>
+                            <li><a href="#test">test</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#FAQ">FAQ</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Device Compatibility</a></li>
+                        </ul>
+                    </aside>
+
+                    <section class="main-section" ng-view></section>
+                    <a class="exit-off-canvas"></a>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="js/libraries/jquery.js"></script>
+        <script type="text/javascript" src="js/libraries/foundation.js"></script>
+        <script type="text/javascript" src="js/libraries/foundation.offcanvas.min.js"></script>
+        <script type="text/javascript" src="js/libraries/foundation.slider.min.js"></script>
+        <script type="text/javascript" src="js/libraries/angular.js"></script>
+        <script type="text/javascript" src="js/libraries/angular-route.min.js"></script>
+
+        <script type="text/javascript" src="js/configuration/app.js"></script>
+        <script type="text/javascript" src="js/configuration/enum.js"></script>
+
+        <script type="text/javascript" src="js/service/authentication-service.js"></script>
+
+        <script type="text/javascript" src="js/controllers/globalcontroller.js"></script>
+        <script type="text/javascript" src="js/controllers/faqcontroller.js"></script>
+        <script type="text/javascript" src="js/controllers/detectorcontroller.js"></script>
+        <script type="text/javascript" src="js/controllers/ctdemocontroller.js"></script>
+        <script type="text/javascript" src="js/controllers/innovationlabdemocontroller.js"></script>
+        <script type="text/javascript" src="js/controllers/testcontroller.js"></script>
+
+        <script type="text/javascript" src="js/libraries/index.js"></script>
+        <script type="text/javascript">
+            $(document).foundation({
+                offcanvas: {
+                    open_method: 'overlap_single',
+                    close_on_click: true
+                }
+            });
+        </script>
+    </body>
+
+    </html>
