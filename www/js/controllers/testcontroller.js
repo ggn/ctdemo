@@ -19,6 +19,11 @@ $PortalApp.controller('testcontroller', function ($scope, $http) {
         alert(err);
     }
 
+    $scope.clicked = function () {
+        var sensorAcc = navigator.accelerometer.watchAcceleration($scope.onSuccess, $scope.onError);
+        alert(sensorAcc);
+    }
+
     $scope.init = function () {
         document.addEventListener("deviceready", function (event) {
             var sensorAcc = navigator.accelerometer.watchAcceleration($scope.onSuccess, $scope.onError);
