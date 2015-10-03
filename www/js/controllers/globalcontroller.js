@@ -15,21 +15,6 @@ $PortalApp.controller('globalController', function ($scope, AuthService, $locati
         return false;
     };
 
-    var onConfirm = function (button) {
-        if (button == 2) {//If User selected No, then we just do nothing
-            return;
-        } else {
-            if (navigator.app) {
-                navigator.app.exitApp();
-            } else if (navigator.device) {
-                navigator.device.exitApp();
-            }
-        }
-    }
-    $scope.confirmExit = function () {
-        navigator.notification.confirm("Are you sure you want to exit ?", onConfirm, "Confirmation", "Yes,No");
-    }
-
     $scope.UserName = AuthService.isAuthenticated();
     $scope.GetDateTimeNow = function () {
         var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];

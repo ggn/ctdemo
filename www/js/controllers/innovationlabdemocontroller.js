@@ -40,6 +40,11 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
             $interval.cancel(flickerer);
             flickerer = undefined;
         },
+        GetDate = function () {
+            var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            var dateTime = new Date();
+            return (dateTime.getDate() + "-" + monthNames[dateTime.getMonth()] + "-" + dateTime.getFullYear());
+        },
         getAverage = function (readings) {
             var total = 0;
             for (var i = 0; i < readings.length; i++) {
@@ -73,19 +78,8 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
                         }
                     }
                 });
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth() + 1;
-                var yyyy = today.getFullYear();
-                if (dd < 10) {
-                    dd = '0' + dd
-                }
-                if (mm < 10) {
-                    mm = '0' + mm
-                }
-                today = dd + '/' + mm + '/' + yyyy;
                 var tempReading = {
-                    date: today,
+                    date: GetDate(),
                     rightEye: getAverage(rightEyeAngles),
                     leftEye: getAverage(leftEyeAngels)
                 };
