@@ -24,10 +24,6 @@ $PortalApp.config(function ($routeProvider, $httpProvider) {
             templateUrl: "Views/glaucoma/FAQ.html",
             controller: "faqcontroller",
             requiresLogin: false
-        }).when("/test", {
-            templateUrl: "Views/citiustech/test.html",
-            controller: "testcontroller",
-            requiresLogin: false
         })
         .otherwise({
             redirectTo: '/'

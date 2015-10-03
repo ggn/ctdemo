@@ -51,7 +51,7 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
             window.localStorage.setItem('readings', JSON.stringify(result));
         },
         calculateReading = function (tempFeildTestReadings) {
-            if (tempFeildTestReadings.length >= 0) {
+            if (tempFeildTestReadings.length > 0) {
                 var calibratedAt = angles.calibrated,
                     leftEyeAngels = [],
                     rightEyeAngles = [];
