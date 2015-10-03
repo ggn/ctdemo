@@ -41,7 +41,7 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
             flickerer = undefined;
         },
         GetDate = function () {
-            var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            var monthNames = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
             var dateTime = new Date();
             return (dateTime.getDate() + "-" + monthNames[dateTime.getMonth()] + "-" + dateTime.getFullYear());
         },

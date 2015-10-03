@@ -38,7 +38,7 @@
                         <span ng-bind="result.leftEye"></span>
                     </td>
                     <td>
-                        <div ng-class="result.rightEye + result.leftEye > 80 ? success : alert" style="height:20px;width:20px;border-radius:10px"></div>
+                        <div ng-class="(result.rightEye + result.leftEye) > 80 ? 'success': 'alert'" style="height:20px;width:20px;border-radius:10px"></div>
                     </td>
                 </tr>
             </tbody>
