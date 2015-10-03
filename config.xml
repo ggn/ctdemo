@@ -1,16 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ggn.meye" version="1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.ggn.meye" version="2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>M-Eye</name>
   <description>
     A hybrid app to perform visual feild test
   </description>
-  <author email="dev@cordova.apache.org" href="http://cordova.io">
+  <author email="ggnair_2207@yahoo.com" href="http://cordova.io">
     GGN
   </author>
   <content src="index.html" />
   <pclugin name="cordova-plugin-whitelist" version="1" />
-  <gap:plugin name="org.apache.cordova.device-motion"/>
-  <gap:plugin name="org.apache.cordova.device-orientation" />
   <access origin="*" />
   <allow-intent href="http://*/*" />
   <allow-intent href="https://*/*" />
