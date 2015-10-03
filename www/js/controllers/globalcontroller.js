@@ -1,4 +1,3 @@
-
 $PortalApp.controller('globalController', function ($scope, AuthService, $location) {
         $scope.logout = function () {
         AuthService.logout();
