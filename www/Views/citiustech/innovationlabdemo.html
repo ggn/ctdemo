@@ -1,5 +1,47 @@
-﻿<div ng-init="init()" id="ctDemoScreen">
-    <div id="circle" ng-style="style(dot)">
-
+﻿<div ng-init="init()">
+    <div class="controlPanel">
+        <a class="button expand" style="margin-bottom:0px" ng-class="!calibrated ? 'success': 'alert'" ng-click="startFeildTest();"> {{ !calibrated ? 'Start' : 'Stop' }} Test</a>
+    </div>
+    <div id="ctDemoScreen" ng-show="calibrated" ng-click="saveReading()">
+        <div id="circle" ng-style="style(dot)"></div>
+    </div>
+    <div id="calibrate" ng-show="!calibrated">
+        <br />
+        <h4>Results from last tests conducted</h4>
+        <table style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Right Eye Angle
+                    </th>
+                    <th>
+                        Left Eye Angle
+                    </th>
+                    <th>
+                        Vision Zone
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-show="results.length <= 0"><td colspan="4" class="text-center">- No Previous Data -</td></tr>
+                <tr ng-repeat="result in results">
+                    <td>
+                        <span ng-bind="result.date"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="result.rightEye"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="result.leftEye"></span>
+                    </td>
+                    <td>
+                        <div ng-class="result.rightEye + result.leftEye > 80 ? success : alert" style="height:20px;width:20px;border-radius:10px"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

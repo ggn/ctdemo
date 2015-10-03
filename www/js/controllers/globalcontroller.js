@@ -1,13 +1,6 @@
 
 $PortalApp.controller('globalController', function ($scope, AuthService, $location) {
-
-    function onDeviceReady() {
-        // Now safe to use the Cordova API
-    }
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-
-    $scope.logout = function () {
+        $scope.logout = function () {
         AuthService.logout();
         $location.path("/login");
     };

@@ -10,24 +10,20 @@ $PortalApp.controller('testcontroller', function ($scope, $http) {
 
     
     $scope.onSuccess = function(acceleration) {
-        alert(acceleration);
         showCalibratedAngle(acceleration);
     }
 
     // onError: Failed to get the acceleration
     $scope.onError= function(err) {
-        alert(err);
     }
 
     $scope.clicked = function () {
         var sensorAcc = navigator.accelerometer.watchAcceleration($scope.onSuccess, $scope.onError);
-        alert(sensorAcc);
     }
 
     $scope.init = function () {
         document.addEventListener("deviceready", function (event) {
             var sensorAcc = navigator.accelerometer.watchAcceleration($scope.onSuccess, $scope.onError);
-            alert(sensorAcc);
         }, false);
 
         window.addEventListener('deviceorientation', function (event) {

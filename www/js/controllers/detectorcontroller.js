@@ -6,31 +6,31 @@ $PortalApp.controller('detectorcontroller', function ($scope, $http) {
         calibration: 0,
         calibrated: false
     },
-        startVibrate = function (level) {
-            level = parseInt(level);
-            if (window.navigator && window.navigator.vibrate) {
-                window.navigator.vibrate(level);
+    startVibrate = function (level) {
+        level = parseInt(level);
+        if (window.navigator && window.navigator.vibrate) {
+            window.navigator.vibrate(level);
+        } else {
+            if (navigator && navigator.vibrate) {
+                navigator.vibrate(level);
             } else {
-                if (navigator && navigator.vibrate) {
-                    navigator.vibrate(level);
-                } else {
-                    navigator.notification.beep(level);
-                }
+                navigator.notification.beep(level);
             }
-        },
-        stopVibrate = function () {
-            startVibrate(0);
-        },
-        showError = function (msg) {
-            var error = '<div id="errorMessages" data-alert class="alert-box secondary">' + msg + '<a href="" class="close">×</a></div>';
-            $('#errorMessages').html(error);
-        },
-        showCalibratedAngle = function () {
-            $('#alphaValue').html(angles.alpha);
-            $('#leftValue').html(angles.leftEye);
-            $('#rightValue').html(angles.rightEye);
-            $('#calibration').html(angles.calibration);
-        };
+        }
+    },
+    stopVibrate = function () {
+        startVibrate(0);
+    },
+    showError = function (msg) {
+        var error = '<div id="errorMessages" data-alert class="alert-box secondary">' + msg + '<a href="" class="close">×</a></div>';
+        $('#errorMessages').html(error);
+    },
+    showCalibratedAngle = function () {
+        $('#alphaValue').html(angles.alpha);
+        $('#leftValue').html(angles.leftEye);
+        $('#rightValue').html(angles.rightEye);
+        $('#calibration').html(angles.calibration);
+    };
 
     $scope.init = function () {
 

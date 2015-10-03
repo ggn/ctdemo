@@ -29,10 +29,6 @@ $PortalApp.config(function ($routeProvider, $httpProvider) {
             controller: "testcontroller",
             requiresLogin: false
         })
-        //.when("/verify/:id?", {
-        //templateUrl: "Views/Account/verify.html",
-        //controller: "",
-        //})
         .otherwise({
             redirectTo: '/'
         });

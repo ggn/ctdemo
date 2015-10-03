@@ -3,13 +3,13 @@
     <div class="controlPanel">
         <a class="button expand" ng-class="controlPanelClicked ? 'success': 'alert'" ng-click="stopFlickler(dot);"> {{ controlPanelClicked ? 'Start' : 'Stop' }} Flicker</a>
     </div>
-    <table ng-show="controlPanelClicked" style="width:100%;z-index:1000;">
+    <table ng-show="controlPanelClicked" style="width:100%;z-index:1000;position:relative;opacity:0.9">
         <tr>
             <td>
                 Diameter:
             </td>
             <td>
-                <input type="range" ng-model="dot.diameter" min="1" max="300" ng-change="calcStyle(dot);" />
+                <input type="range" ng-model="dot.diameter" min="1" max="300" ng-change="calcStyle(dot);" style="width:100%" />
             </td>
             <td>
                 <span ng-bind="dot.diameter"></span>
@@ -20,7 +20,7 @@
                 Position-X:
             </td>
             <td>
-                <input type="range" ng-model="dot.x" min="1" max="250" ng-change="calcStyle(dot);" />
+                <input type="range" ng-model="dot.x" min="1" max="250" ng-change="calcStyle(dot);" style="width:100%" />
             </td>
             <td><span ng-bind="dot.x"></span></td>
         </tr>
@@ -29,10 +29,21 @@
                 Position-Y:
             </td>
             <td>
-                <input type="range" ng-model="dot.y" min="1" max="600" ng-change="calcStyle(dot);" />
+                <input type="range" ng-model="dot.y" min="1" max="600" ng-change="calcStyle(dot);" style="width:100%" />
             </td>
             <td>
                 <span ng-bind="dot.y"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Flicker Rate:
+            </td>
+            <td>
+                <input type="range" ng-model="dot.flicker" step="50" min="100" max="500" ng-change="calcStyle(dot);" style="width:100%" />
+            </td>
+            <td>
+                <span ng-bind="dot.flicker"></span> ms
             </td>
         </tr>
     </table>

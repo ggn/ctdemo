@@ -1,21 +1,123 @@
 $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval) {
-    var flickerer;
-    var setFlickerer = function (dot) {
-        flickerer = $interval(function () {
-            if (dot.r == 0) {
-                $scope.dot.r = $scope.dot.b = $scope.dot.g = 255;
+    var flickerer,
+        angles = {
+            alpha: 0,
+            leftEye: 0,
+            rightEye: 0,
+            calibration: 0,
+            calibrated: false
+        },
+        feildTestReadings = [], averageReadingsObj = [],
+        showError = function (msg) {
+            alert(msg);
+        },
+        startVibrate = function (level) {
+            level = parseInt(level);
+            if (window.navigator && window.navigator.vibrate) {
+                window.navigator.vibrate(level);
             } else {
-                $scope.dot.r = $scope.dot.b = $scope.dot.g = 0;
+                if (navigator && navigator.vibrate) {
+                    navigator.vibrate(level);
+                } else {
+                    navigator.notification.beep(level);
+                }
+            }
+        },
+        stopVibrate = function () {
+            startVibrate(0);
+        },
+        setFlickerer = function (dot) {
+            flickerer = $interval(function () {
+                if (dot.r == 0) {
+                    $scope.dot.r = $scope.dot.b = $scope.dot.g = 255;
+                } else {
+                    $scope.dot.r = $scope.dot.b = $scope.dot.g = 0;
+                };
+                $scope.calcStyle(dot);
+            }, dot.flicker);
+        },
+        clearFlickerer = function () {
+            $interval.cancel(flickerer);
+            flickerer = undefined;
+        },
+        getAverage = function (readings) {
+            var total = 0;
+            for (var i = 0; i < readings.length; i++) {
+                total += readings[i];
+            }
+            return total / readings.length;
+        },
+        saveReading = function (result) {
+            window.localStorage.setItem('readings', JSON.stringify(result));
+        },
+        calculateReading = function (tempFeildTestReadings) {
+            if (tempFeildTestReadings.length >= 0) {
+                var calibratedAt = angles.calibrated,
+                    leftEyeAngels = [],
+                    rightEyeAngles = [];
+                tempFeildTestReadings.forEach(function (val) {
+                    var difference = calibratedAt > val ? calibratedAt - val : val - calibratedAt;
+
+                    //averageReadingsObj
+                    if (difference > 110) {
+                        if (calibratedAt - val < 0) {
+                            rightEyeAngles.push((360 - val) + calibratedAt);
+                        } else {
+                            leftEyeAngels.push((360 - calibratedAt) + val);
+                        }
+                    } else {
+                        if (val > calibratedAt) {
+                            leftEyeAngels.push(difference);
+                        } else {
+                            rightEyeAngles.push(difference);
+                        }
+                    }
+                });
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                today = dd + '/' + mm + '/' + yyyy;
+                var tempReading = {
+                    date: today,
+                    rightEye: getAverage(rightEyeAngles),
+                    leftEye: getAverage(leftEyeAngels)
+                };
+
+                return tempReading;
+            } else {
+                return null;
             };
-            $scope.calcStyle(dot);
-        }, dot.flicker);
-    };
-    var clearFlickerer = function () {
-        $interval.cancel(flickerer);
-        flickerer = undefined;
+        };
+
+    $scope.startFeildTest = function () {
+        if ($scope.calibrated) {
+            $scope.calibrated = false;
+            var currentReading = calculateReading(feildTestReadings);
+            if (currentReading) {
+                $scope.results.push(currentReading);
+                saveReading($scope.results);
+            }
+        } else {
+            $scope.calibrated = true;
+            feildTestReadings = [];
+            angles.calibrated = angles.alpha;
+        }
     };
 
     $scope.init = function () {
+        $scope.calibrated = false;
+        $scope.results = [];
+        var tempReading = window.localStorage.getItem('readings');
+        if (tempReading) {
+            $scope.results = JSON.parse(tempReading);
+        }
         $scope.dot = {
             diameter: 100,
             x: 125,
@@ -26,9 +128,23 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
             flicker: 250,
             style: {}
         };
+        var storedSetting = JSON.parse(window.localStorage.getItem('settings'));
+        if (storedSetting) {
+            $scope.dot = storedSetting;
+        }
         $scope.calcStyle($scope.dot);
         setFlickerer($scope.dot);
-        document.addEventListener("deviceready", onDeviceReady, false);
+
+
+        //Check for support for DeviceOrientation event
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', function (event) {
+                var temp = Math.ceil(event.alpha);
+                angles.alpha = temp - (temp % 10);
+            }, false);
+        } else {
+            showError("Unable to get rotation data");
+        }
     };
 
     $scope.calcStyle = function (dot) {
@@ -44,27 +160,7 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
         return dot.style;
     };
 
-    var options = {
-        frequency: 80
+    $scope.saveReading = function () {
+        feildTestReadings.push(angles.alpha);
     };
-
-    function onDeviceReady() {
-        var sensorAcc = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
-        alert(sensorAcc);
-    }
-
-    // onSuccess: Get a snapshot of the current acceleration
-    function onSuccess(acceleration) {
-        alert(acceleration);
-        $('#circle').html('Acceleration X: ' + acceleration.x + '\n' +
-            'Acceleration Y: ' + acceleration.y + '\n' +
-            'Acceleration Z: ' + acceleration.z + '\n' +
-            'Timestamp: ' + acceleration.timestamp + '\n');
-    }
-
-    // onError: Failed to get the acceleration
-    function onError(err) {
-        alert(err);
-        $('#circle').html('onError!');
-    }
 });

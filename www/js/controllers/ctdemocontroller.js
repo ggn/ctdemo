@@ -9,6 +9,7 @@ $PortalApp.controller('ctdemocontroller', function ($scope, $interval) {
             };
             $scope.calcStyle(dot);
         }, dot.flicker);
+        window.localStorage.setItem('settings', JSON.stringify(dot));
     };
     var clearFlickerer = function () {
         $interval.cancel(flickerer);
@@ -28,6 +29,10 @@ $PortalApp.controller('ctdemocontroller', function ($scope, $interval) {
     $scope.init = function () {
         $scope.controlPanelClicked = false;
         $scope.calcStyle($scope.dot);
+        var storedSetting = window.localStorage.getItem('settings');
+        if (storedSetting) {
+            $scope.dot = JSON.parse(storedSetting);
+        }
         setFlickerer($scope.dot);
     };
 
