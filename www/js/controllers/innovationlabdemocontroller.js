@@ -78,36 +78,61 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
                         }
                     }
                 });
-                var tempReading = {
-                    date: GetDate(),
-                    rightEye: getAverage(rightEyeAngles),
-                    leftEye: getAverage(leftEyeAngels)
-                };
 
-                return tempReading;
-            } else {
-                return null;
-            };
+                var tempArray = leftEyeAngels.length > rightEyeAngles.length ? leftEyeAngels : rightEyeAngles;
+                tempArray.forEach(function (val, i) {
+                    $scope.resultArrayToValidate.push({
+                        isLeftValid: true,
+                        leftEye: leftEyeAngels[i],
+                        rightEye: rightEyeAngles[i],
+                        isRightValid: true
+                    });
+                });
+                $scope.showScreen = 'resultScreen';
+            }
         };
 
     $scope.startFeildTest = function () {
         if ($scope.calibrated) {
             $scope.calibrated = false;
-            var currentReading = calculateReading(feildTestReadings);
-            if (currentReading) {
-                $scope.results.push(currentReading);
-                saveReading($scope.results);
-            }
+            calculateReading(feildTestReadings);
         } else {
             $scope.calibrated = true;
             feildTestReadings = [];
             angles.calibrated = angles.alpha;
+            $scope.showScreen = 'testScreen';
         }
+    };
+
+    $scope.saveValidReading = function (resultValidatedArray) {
+        var rightEyeAngles = [], leftEyeAngels = [];
+        resultValidatedArray.forEach(function (val) {
+            if (val.isRightValid) {
+                rightEyeAngles.push(val.rightEye);
+            }
+            if (val.isLeftValid) {
+                leftEyeAngels.push(val.leftEye);
+            }
+        });
+
+        var tempReading = {
+            date: GetDate(),
+            rightEye: getAverage(rightEyeAngles),
+            leftEye: getAverage(leftEyeAngels)
+        };
+
+        if (resultValidatedArray) {
+            $scope.results.push(tempReading);
+            saveReading($scope.results);
+        }
+        $scope.showScreen = 'historyScreen';
     };
 
     $scope.init = function () {
         $scope.calibrated = false;
         $scope.results = [];
+        $scope.resultArrayToValidate = [];
+        $scope.showScreen = 'historyScreen';
         var tempReading = window.localStorage.getItem('readings');
         if (tempReading) {
             $scope.results = JSON.parse(tempReading);

@@ -2,10 +2,10 @@
     <div class="controlPanel">
         <a class="button expand" style="margin-bottom:0px" ng-class="!calibrated ? 'success': 'alert'" ng-click="startFeildTest();"> {{ !calibrated ? 'Start' : 'Stop' }} Test</a>
     </div>
-    <div id="ctDemoScreen" ng-show="calibrated" ng-click="saveReading()">
+    <div id="ctDemoScreen" ng-show="showScreen=='testScreen'" ng-click="saveReading()">
         <div id="circle" ng-style="style(dot)"></div>
     </div>
-    <div id="calibrate" ng-show="!calibrated">
+    <div id="calibrate" ng-show="showScreen=='historyScreen'">
         <br />
         <h4>Results from last tests conducted</h4>
         <table style="width:100%">
@@ -15,33 +15,88 @@
                         Date
                     </th>
                     <th>
-                        Right Eye Angle
-                    </th>
-                    <th>
                         Left Eye Angle
                     </th>
                     <th>
-                        Vision Zone
+                        Right Eye Angle
+                    </th>
+                    <th width="80px">
+                        Result
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-show="results.length <= 0"><td colspan="4" class="text-center">- No Previous Data -</td></tr>
-                <tr ng-repeat="result in results">
+                <tr ng-repeat="result in results track by $index">
                     <td>
                         <span ng-bind="result.date"></span>
-                    </td>
-                    <td>
-                        <span ng-bind="result.rightEye"></span>
                     </td>
                     <td>
                         <span ng-bind="result.leftEye"></span>
                     </td>
                     <td>
-                        <div ng-class="(result.rightEye + result.leftEye) > 80 ? 'success': 'alert'" style="height:20px;width:20px;border-radius:10px"></div>
+                        <span ng-bind="result.rightEye"></span>
+                    </td>
+                    <td class="text-center">
+                        <div ng-class="(result.rightEye > 80 && result.leftEye > 80) ? 'safe': 'danger'" class="visionzonediv"></div>
                     </td>
                 </tr>
             </tbody>
+        </table>
+        <br />
+        <table>
+            <tr>
+                <th class="text-center" colspan="2">
+                    Vision Indicator
+                </th>
+            </tr>
+            <tr>
+                <td width="80px">
+                    <div class="visionzonediv safe"></div>
+                </td>
+                <td>
+                    Safe Zone
+                </td>
+            </tr>
+            <tr>
+                <td width="80px">
+                    <div class="visionzonediv danger"></div>
+                </td>
+                <td>
+                    Danger Zone
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="resultScreen" ng-show="showScreen=='resultScreen'">
+        <br />
+        <table>
+            <tr>
+                <th>Is Valid</th>
+                <th>Left Eye</th>
+                <th>Right Eye</th>
+                <th>Is Valid</th>
+            </tr>
+            <tr ng-repeat="result in resultArrayToValidate track by $index">
+                <td>
+                    <input type="checkbox" ng-model="result.isLeftValid" ng-bind="result.isLeftValid">
+                </td>
+                <td>
+                    <span ng-bind="result.leftEye"></span>
+                </td>
+                <td>
+                    <span ng-bind="result.rightEye"></span>
+                </td>
+                <td>
+                    <input type="checkbox" ng-model="result.isRightValid" ng-bind="result.isRightValid">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <input type="button" ng-click="saveValidReading(resultArrayToValidate)" class="button success" value="Save" />
+                    <input type="button" ng-click="showScreen='historyScreen'" class="button alert" value="Cancel" />
+                </td>
+            </tr>
         </table>
     </div>
 </div>
