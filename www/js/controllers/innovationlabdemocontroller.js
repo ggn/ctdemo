@@ -56,6 +56,7 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
             window.localStorage.setItem('readings', JSON.stringify(result));
         },
         calculateReading = function (tempFeildTestReadings) {
+            $scope.resultValidatedArray = [];
             if (tempFeildTestReadings.length > 0) {
                 var calibratedAt = angles.calibrated,
                     leftEyeAngels = [],
@@ -88,8 +89,8 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
                         isRightValid: true
                     });
                 });
-                $scope.showScreen = 'resultScreen';
             }
+            $scope.showScreen = 'resultScreen';
         };
 
     $scope.startFeildTest = function () {

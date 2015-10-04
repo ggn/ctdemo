@@ -92,9 +92,11 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
-                    <input type="button" ng-click="saveValidReading(resultArrayToValidate)" class="button success" value="Save" />
-                    <input type="button" ng-click="showScreen='historyScreen'" class="button alert" value="Cancel" />
+                <td colspan="4" class="text-center">
+                    <ul class="button-group round">
+                        <li><a ng-click="saveValidReading(resultArrayToValidate)" class="button success">Save </a></li>
+                        <li><a ng-click="showScreen='historyScreen'" class="button alert">Clear</a></li>
+                    </ul>
                 </td>
             </tr>
         </table>
