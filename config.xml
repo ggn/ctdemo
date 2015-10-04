@@ -7,7 +7,7 @@
   <author email="ggnair_2207@yahoo.com" href="http://cordova.io">
     GGN
   </author>
-  <icon src="res/icon.png" />
+  <icon src="icon.png" />
   <content src="index.html" />
   <pclugin name="cordova-plugin-whitelist" version="1" />
   <access origin="*" />
