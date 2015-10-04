@@ -46,6 +46,9 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
             return (dateTime.getDate() + "-" + monthNames[dateTime.getMonth()] + "-" + dateTime.getFullYear());
         },
         getAverage = function (readings) {
+            if (readings.length <= 0) {
+                return 0;
+            }
             var total = 0;
             for (var i = 0; i < readings.length; i++) {
                 total += readings[i];
@@ -108,10 +111,10 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
     $scope.saveValidReading = function (resultValidatedArray) {
         var rightEyeAngles = [], leftEyeAngels = [];
         resultValidatedArray.forEach(function (val) {
-            if (val.isRightValid) {
+            if (val.isRightValid && val.rightEye) {
                 rightEyeAngles.push(val.rightEye);
             }
-            if (val.isLeftValid) {
+            if (val.isLeftValid && val.leftEye) {
                 leftEyeAngels.push(val.leftEye);
             }
         });
@@ -155,12 +158,10 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
         $scope.calcStyle($scope.dot);
         setFlickerer($scope.dot);
 
-
         //Check for support for DeviceOrientation event
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', function (event) {
-                var temp = Math.ceil(event.alpha);
-                angles.alpha = temp - (temp % 10);
+                angles.alpha = Math.round(event.alpha);
             }, false);
         } else {
             showError("Unable to get rotation data");
