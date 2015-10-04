@@ -59,7 +59,7 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
             window.localStorage.setItem('readings', JSON.stringify(result));
         },
         calculateReading = function (tempFeildTestReadings) {
-            $scope.resultValidatedArray = [];
+
             if (tempFeildTestReadings.length > 0) {
                 var calibratedAt = angles.calibrated,
                     leftEyeAngels = [],
@@ -99,6 +99,8 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
     $scope.startFeildTest = function () {
         if ($scope.calibrated) {
             $scope.calibrated = false;
+            $scope.resultValidatedArray = [];
+            $scope.resultArrayToValidate = [];
             calculateReading(feildTestReadings);
         } else {
             $scope.calibrated = true;
@@ -109,27 +111,30 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
     };
 
     $scope.saveValidReading = function (resultValidatedArray) {
-        var rightEyeAngles = [], leftEyeAngels = [];
-        resultValidatedArray.forEach(function (val) {
-            if (val.isRightValid && val.rightEye) {
-                rightEyeAngles.push(val.rightEye);
-            }
-            if (val.isLeftValid && val.leftEye) {
-                leftEyeAngels.push(val.leftEye);
-            }
-        });
-
-        var tempReading = {
-            date: GetDate(),
-            rightEye: getAverage(rightEyeAngles),
-            leftEye: getAverage(leftEyeAngels)
-        };
-
         if (resultValidatedArray) {
-            $scope.results.push(tempReading);
-            saveReading($scope.results);
+            var rightEyeAngles = [], leftEyeAngels = [];
+            resultValidatedArray.forEach(function (val) {
+                if (val.isRightValid && val.rightEye) {
+                    rightEyeAngles.push(val.rightEye);
+                }
+                if (val.isLeftValid && val.leftEye) {
+                    leftEyeAngels.push(val.leftEye);
+                }
+            });
+
+            var tempReading = {
+                date: GetDate(),
+                rightEye: getAverage(rightEyeAngles),
+                leftEye: getAverage(leftEyeAngels)
+            };
+
+            if (resultValidatedArray.length > 0) {
+                $scope.results.push(tempReading);
+                saveReading($scope.results);
+            }
         }
         $scope.showScreen = 'historyScreen';
+        resultValidatedArray = [];
     };
 
     $scope.init = function () {
