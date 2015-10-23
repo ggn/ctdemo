@@ -1,8 +1,5 @@
 ﻿<div ng-init="init()">
-    <div class="controlPanel">
-        <a class="button expand" style="margin-bottom:0px" ng-class="!calibrated ? 'success': 'alert'" ng-click="startFeildTest();"> {{ !calibrated ? 'Start' : 'Stop' }} Test</a>
-    </div>
-    <div id="ctDemoScreen" ng-show="showScreen=='testScreen'" ng-click="saveReading()">
+    <div id="ctDemoScreen" ng-show="showScreen=='testScreen'" ng-click="saveCalculatedReading()">
         <div id="circle" ng-style="style(dot)"></div>
     </div>
     <div id="calibrate" ng-show="showScreen=='historyScreen'">
@@ -15,10 +12,10 @@
                         Date
                     </th>
                     <th>
-                        Left Eye Angle
+                        Test
                     </th>
                     <th>
-                        Right Eye Angle
+                        Reading
                     </th>
                     <th width="80px">
                         Result
@@ -32,13 +29,13 @@
                         <span ng-bind="result.date"></span>
                     </td>
                     <td>
-                        <span ng-bind="result.leftEye"></span>
+                        <span ng-bind="result.test"></span>
                     </td>
                     <td>
-                        <span ng-bind="result.rightEye"></span>
+                        <span ng-bind="result.reading"></span>
                     </td>
                     <td class="text-center">
-                        <div ng-class="(result.rightEye > 80 && result.leftEye > 80) ? 'safe': 'danger'" class="visionzonediv"></div>
+                        <div ng-class="(result.reading > 80) ? 'safe': 'danger'" class="visionzonediv"></div>
                     </td>
                 </tr>
             </tbody>
@@ -70,36 +67,38 @@
     </div>
     <div id="resultScreen" ng-show="showScreen=='resultScreen'">
         <br />
-        <h4>Uncheck invalid results</h4>
+        <h4>Accept results</h4>
         <table style="width:100%">
             <tr>
-                <th>Is Valid</th>
-                <th>Left Eye</th>
-                <th>Right Eye</th>
-                <th>Is Valid</th>
+                <th>Test</th>
+                <th>Result</th>
             </tr>
             <tr ng-repeat="result in resultArrayToValidate track by $index">
                 <td>
-                    <input type="checkbox" ng-model="result.isLeftValid" ng-bind="result.isLeftValid">
+                    <span ng-bind="result.test"></span>
                 </td>
                 <td>
-                    <span ng-bind="result.leftEye"></span>
-                </td>
-                <td>
-                    <span ng-bind="result.rightEye"></span>
-                </td>
-                <td>
-                    <input type="checkbox" ng-model="result.isRightValid" ng-bind="result.isRightValid">
+                    <span ng-bind="result.reading"></span>
                 </td>
             </tr>
             <tr>
                 <td colspan="4" class="text-center">
                     <ul class="button-group round">
-                        <li><a ng-disabled="resultArrayToValidate.length<=0" ng-click="resultArrayToValidate.length<=0?'':saveValidReading(resultArrayToValidate)" class="button success">Save </a></li>
-                        <li><a ng-click="showScreen='historyScreen'" class="button alert">Clear</a></li>
+                        <li><a ng-disabled="resultArrayToValidate.length<=0" ng-click="resultArrayToValidate.length<=0?'':saveValidReading(resultArrayToValidate)" class="button success">Accept</a></li>
+                        <li><a ng-click="showScreen='historyScreen'" class="button alert">Ignore</a></li>
                     </ul>
                 </td>
             </tr>
         </table>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="controlPanel" ng-show="!calibrated">
+        <ul class="button-group round">
+            <li><a ng-click="startFeildTest('left');" class="button expand">Test Left Eye</a></li>
+            <li><a ng-click="startFeildTest('right')" class="button expand">Test Right Eye</a></li>
+        </ul>
     </div>
 </div>

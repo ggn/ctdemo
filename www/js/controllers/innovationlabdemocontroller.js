@@ -7,20 +7,25 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
             calibration: 0,
             calibrated: false
         },
+        testName,
         feildTestReadings = [], averageReadingsObj = [],
         showError = function (msg) {
             alert(msg);
         },
-        startVibrate = function (level) {
-            level = parseInt(level);
-            if (window.navigator && window.navigator.vibrate) {
-                window.navigator.vibrate(level);
-            } else {
-                if (navigator && navigator.vibrate) {
-                    navigator.vibrate(level);
+        startVibrate = function (levelValue) {
+            try {
+                var level = parseInt(levelValue);
+                if (window.navigator && window.navigator.vibrate) {
+                    window.navigator.vibrate(level);
                 } else {
-                    navigator.notification.beep(level);
+                    if (navigator && navigator.vibrate) {
+                        navigator.vibrate(level);
+                    } else {
+                        navigator.notification.beep(level);
+                    }
                 }
+            } catch (e) {
+                console.log(e);
             }
         },
         stopVibrate = function () {
@@ -45,87 +50,52 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
             var dateTime = new Date();
             return (dateTime.getDate() + "-" + monthNames[dateTime.getMonth()] + "-" + dateTime.getFullYear());
         },
-        getAverage = function (readings) {
-            if (readings.length <= 0) {
-                return 0;
-            }
-            var total = 0;
-            for (var i = 0; i < readings.length; i++) {
-                total += readings[i];
-            }
-            return total / readings.length;
-        },
         saveReading = function (result) {
             window.localStorage.setItem('readings', JSON.stringify(result));
         },
-        calculateReading = function (tempFeildTestReadings) {
+        calculateReading = function () {
+            startVibrate(100);
+            $scope.resultArrayToValidate = [];
+            var calibratedAt = angles.calibrated,
+                reading = angles.alpha
+            ;
+            var difference = 0;
+            if (testName === 'left') {
+                difference = reading - calibratedAt;
+            } else {
+                difference = calibratedAt - reading;
+            }
 
-            if (tempFeildTestReadings.length > 0) {
-                var calibratedAt = angles.calibrated,
-                    leftEyeAngels = [],
-                    rightEyeAngles = [];
-                tempFeildTestReadings.forEach(function (val) {
-                    var difference = calibratedAt > val ? calibratedAt - val : val - calibratedAt;
+            difference = difference < 0 ? 360 + difference : difference;
 
-                    //averageReadingsObj
-                    if (difference > 110) {
-                        if (calibratedAt - val < 0) {
-                            rightEyeAngles.push((360 - val) + calibratedAt);
-                        } else {
-                            leftEyeAngels.push((360 - calibratedAt) + val);
-                        }
-                    } else {
-                        if (val > calibratedAt) {
-                            leftEyeAngels.push(difference);
-                        } else {
-                            rightEyeAngles.push(difference);
-                        }
-                    }
-                });
-
-                var tempArray = leftEyeAngels.length > rightEyeAngles.length ? leftEyeAngels : rightEyeAngles;
-                tempArray.forEach(function (val, i) {
-                    $scope.resultArrayToValidate.push({
-                        isLeftValid: true,
-                        leftEye: leftEyeAngels[i],
-                        rightEye: rightEyeAngles[i],
-                        isRightValid: true
-                    });
+            if (!isNaN(difference)) {
+                $scope.resultArrayToValidate.push({
+                    test: testName == 'right' ? 'Right Eye' : 'Left Eye',
+                    reading: difference,
                 });
             }
+            $scope.calibrated = false;
             $scope.showScreen = 'resultScreen';
         };
 
-    $scope.startFeildTest = function () {
-        if ($scope.calibrated) {
-            $scope.calibrated = false;
-            $scope.resultValidatedArray = [];
-            $scope.resultArrayToValidate = [];
-            calculateReading(feildTestReadings);
-        } else {
-            $scope.calibrated = true;
-            feildTestReadings = [];
-            angles.calibrated = angles.alpha;
-            $scope.showScreen = 'testScreen';
-        }
+    $scope.startFeildTest = function (testEye) {
+        testName = testEye;
+        $scope.calibrated = true;
+        feildTestReadings = [];
+        angles.calibrated = angles.alpha;
+        $scope.showScreen = 'testScreen';
+    };
+
+    $scope.saveCalculatedReading = function () {
+        calculateReading();
     };
 
     $scope.saveValidReading = function (resultValidatedArray) {
         if (resultValidatedArray) {
-            var rightEyeAngles = [], leftEyeAngels = [];
-            resultValidatedArray.forEach(function (val) {
-                if (val.isRightValid && val.rightEye) {
-                    rightEyeAngles.push(val.rightEye);
-                }
-                if (val.isLeftValid && val.leftEye) {
-                    leftEyeAngels.push(val.leftEye);
-                }
-            });
-
             var tempReading = {
                 date: GetDate(),
-                rightEye: getAverage(rightEyeAngles),
-                leftEye: getAverage(leftEyeAngels)
+                test: resultValidatedArray[0].test,
+                reading: resultValidatedArray[0].reading
             };
 
             if (resultValidatedArray.length > 0) {
@@ -184,9 +154,5 @@ $PortalApp.controller('innovationlabdemocontroller', function ($scope, $interval
     };
     $scope.style = function (dot) {
         return dot.style;
-    };
-
-    $scope.saveReading = function () {
-        feildTestReadings.push(angles.alpha);
     };
 });

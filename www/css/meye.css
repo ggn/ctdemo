@@ -37,3 +37,16 @@
 .visionzonediv.danger {
     background-color:red;
 }
+
+.controlPanel {
+    position:fixed;
+    bottom:0px;
+    width:100%;
+}
+.controlPanel ul{
+    width:100%;
+}
+
+.controlPanel li{
+    width:50%;
+}
